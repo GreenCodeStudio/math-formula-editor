@@ -69,9 +69,15 @@ export class MathFormulaEditor extends HTMLElement {
             }
             operation.draggable = true;
         }
-this.querySelector('.formula').append(new SubFormula(this))
+        this.querySelector('.formula').append(new SubFormula(this))
     }
 
+    get value() {
+        return this.querySelector('.formula > sub-formula').value;
+    }
+    set value(value) {
+        this.querySelector('.formula > sub-formula').value = value;
+    }
 }
 
 customElements.define('math-formula-editor', MathFormulaEditor);
