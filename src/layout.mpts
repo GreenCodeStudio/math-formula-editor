@@ -1,4 +1,4 @@
-<div>
+<div class="mathFormulaEditor">
     <div class="nodes">{{nodes}}
     <:foreach collection=nodes item=node>
         <div class="node" data-code=node.code>

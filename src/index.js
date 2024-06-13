@@ -1,5 +1,6 @@
 import layout from "!!mpts-loader!./layout.mpts";
 import "!!style-loader!css-loader!sass-loader!./style.scss";
+import {SubFormula} from "./subFormula.js";
 
 export class MathFormulaEditor extends HTMLElement {
     nodes = [];
@@ -93,7 +94,14 @@ export class MathFormulaEditor extends HTMLElement {
             if (event.dataTransfer.getData("operation")) {
                 const operation = this.operations.find(operation => operation.code === event.dataTransfer.getData("operation"));
                 const newOperation = document.createElement('div');
-                newOperation.append(operation.symbol);
+                if (operation.code === 'group') {
+                    newOperation.append('(')
+                    newOperation.append(new SubFormula())
+                    newOperation.append(')')
+                } else if (operation.code === 'divide') {
+                } else {
+                    newOperation.append(operation.symbol);
+                }
                 newOperation.classList.add('operation');
                 this.querySelector('.placeholder').replaceWith(newOperation);
             }
