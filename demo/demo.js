@@ -1,3 +1,5 @@
+import {SyntaxTreeParser} from "../src/syntaxTreeParser.js";
+
 console.log('aa');
 import {MathFormulaEditor} from '../src/index.js';
 
@@ -10,4 +12,10 @@ document.body.append(result)
 editor.addEventListener('change', (event) => {
     console.log('changed')
     result.innerText = JSON.stringify(editor.value)
+    result.appendChild(document.createElement('hr'))
+    try {
+        result.append(JSON.stringify(SyntaxTreeParser.parse(editor.value)))
+    }catch (e) {
+        result.append(e.message)
+    }
 });

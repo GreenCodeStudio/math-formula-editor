@@ -82,7 +82,7 @@ export class SubFormula extends HTMLElement {
                         type: 'operation',
                         code: x.dataset.code,
                         nominator: x.querySelector('sub-formula:first-of-type').value,
-                        denominator: x.querySelector('sub-formula:first-of-type').value
+                        denominator: x.querySelector('sub-formula:last-of-type').value
                     }
                 } else {
                     return {type: 'operation', code: x.dataset.code}
