@@ -21,8 +21,8 @@ export class MathFormulaEditor extends HTMLElement {
                 symbol: '+'
             },
             {
-                code: 'substract',
-                name: 'Substract',
+                code: 'subtract',
+                name: 'Subtract',
                 symbol: '-'
             },
             {
@@ -81,3 +81,5 @@ export class MathFormulaEditor extends HTMLElement {
 }
 
 customElements.define('math-formula-editor', MathFormulaEditor);
+
+export {SyntaxTreeParser} from "./syntaxTreeParser.js";
