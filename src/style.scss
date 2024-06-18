@@ -73,4 +73,17 @@
             flex: 1 1 auto;
         }
     }
+    .dragged{
+        opacity: 0.5;
+    }
+    .dropRemove{
+        height: 2em;
+        background: red;
+        opacity: 0;
+    }
+    .dragover &{
+        .dropRemove{
+            opacity: 1;
+        }
+    }
 }

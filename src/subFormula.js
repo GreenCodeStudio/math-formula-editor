@@ -15,13 +15,12 @@ export class SubFormula extends HTMLElement {
             if (!placeholder) {
                 placeholder = document.createElement('div');
                 placeholder.classList.add('placeholder');
-                placeholder.ondra
             }
             const children2 = [...this.children];
             if (children2[index] != placeholder && children2[index - 1] != placeholder) {
                 this.insertBefore(placeholder, children2[index]);
-                console.log('dddd', index, children2.length)
             }
+
             event.preventDefault();
             event.stopPropagation()
         }
@@ -40,90 +39,94 @@ export class SubFormula extends HTMLElement {
         this.ondrop = (event) => {
             event.preventDefault();
             event.stopPropagation()
-            if (event.dataTransfer.getData("operation")) {
-                const operation = this.editor.operations.find(operation => operation.code === event.dataTransfer.getData("operation"));
-                const newOperation = document.createElement('div');
-                if (operation.code === 'group') {
-                    newOperation.append('(')
-                    newOperation.append(new SubFormula(this.editor))
-                    newOperation.append(')')
-                    newOperation.classList.add('group')
-                } else if (operation.code === 'divide') {
-                    newOperation.append(new SubFormula(this.editor))
-                    newOperation.append(new SubFormula(this.editor))
-                    newOperation.classList.add('divide')
-                } else {
-                    newOperation.append(operation.symbol);
+            if (event.dataTransfer.getData("math-formula-editor-element")) {
+                const x = JSON.parse(event.dataTransfer.getData("math-formula-editor-element"));
+                const newElement = this.createElement(x);
+                this.querySelector('.placeholder').replaceWith(newElement);
+                if (!event.ctrlKey) {
+                    document.getElementById(x.id)?.remove();
                 }
-                newOperation.classList.add('operation');
-                newOperation.dataset.code = operation.code;
-                this.querySelector('.placeholder').replaceWith(newOperation);
             }
-            if (event.dataTransfer.getData("node")) {
-                const code = event.dataTransfer.getData("node");
-                const node = this.editor.nodes.find(node => node.code === code);
-                const newNode = document.createElement('div');
-                newNode.append(node.name);
-                newNode.classList.add('node');
-                newNode.dataset.code = node.code;
-                this.querySelector('.placeholder').replaceWith(newNode);
-            }
+            this.editor.classList.remove('dragover');
             this.dispatchEvent(new CustomEvent('change', {bubbles: true}))
         }
     }
 
-    get value() {
-        return [...this.children].map(x => {
-            if (x.classList.contains('operation')) {
-                if (x.classList.contains('group')) {
-                    return {type: 'operation', code: x.dataset.code, content: x.querySelector('sub-formula').value}
-                } else if (x.classList.contains('divide')) {
-                    return {
-                        type: 'operation',
-                        code: x.dataset.code,
-                        nominator: x.querySelector('sub-formula:first-of-type').value,
-                        denominator: x.querySelector('sub-formula:last-of-type').value
-                    }
-                } else {
-                    return {type: 'operation', code: x.dataset.code}
-                }
+    createElement(x) {
+        console.log('create', x)
+        if (x.type === 'operation') {
+            const operation = this.editor.operations.find(operation => operation.code === x.code);
+            const newOperation = document.createElement('div');
+            if (operation.code === 'group') {
+                newOperation.append('(')
+                newOperation.append(new SubFormula(this.editor))
+                newOperation.append(')')
+                newOperation.classList.add('group')
+            } else if (operation.code === 'divide') {
+                newOperation.append(new SubFormula(this.editor))
+                newOperation.append(new SubFormula(this.editor))
+                newOperation.classList.add('divide')
+            } else {
+                newOperation.append(operation.symbol);
             }
-            if (x.classList.contains('node')) {
-                return {type: 'node', code: x.dataset.code}
-            }
-        })
+            newOperation.classList.add('operation');
+            newOperation.dataset.code = operation.code;
+            newOperation.draggable = true;
+            newNode.id = 'operation-' + (+new Date()) + '-' + Math.random().toString().slice(2, 8);
+            newOperation.addEventListener('dragstart', (event) => {
+                event.dataTransfer.setData("math-formula-editor-element", JSON.stringify(this.serializeElement(newOperation,true)));
+            });
+            return (newOperation);
+        } else if (x.type === 'node') {
+            const node = this.editor.nodes.find(node => node.code === x.code);
+            const newNode = document.createElement('div');
+            newNode.append(node.name);
+            newNode.classList.add('node');
+            newNode.dataset.code = node.code;
+            newNode.draggable = true;
+            newNode.id = 'node-' + (+new Date()) + '-' + Math.random().toString().slice(2, 8);
+            newNode.addEventListener('dragstart', (event) => {
+                event.dataTransfer.setData("math-formula-editor-element", JSON.stringify(this.serializeElement(newNode,true)));
+            });
+            return (newNode);
+        }
     }
+
+    serializeElement(x, addId) {
+        let ret;
+        if (x.classList.contains('operation')) {
+            if (x.classList.contains('group')) {
+                ret= {type: 'operation', code: x.dataset.code, content: x.querySelector('sub-formula').value}
+            } else if (x.classList.contains('divide')) {
+                ret= {
+                    type: 'operation',
+                    code: x.dataset.code,
+                    nominator: x.querySelector('sub-formula:first-of-type').value,
+                    denominator: x.querySelector('sub-formula:last-of-type').value
+                }
+            } else {
+                ret= {type: 'operation', code: x.dataset.code}
+            }
+        }
+        if (x.classList.contains('node')) {
+            ret= {type: 'node', code: x.dataset.code}
+        }
+        if(addId){
+            ret.id=x.id
+        }
+        return ret
+    }
+
+    get value() {
+        return [...this.children].map(x => this.serializeElement(x))
+    }
+
     set value(value) {
-        while(this.firstChild) {
+        while (this.firstChild) {
             this.firstChild.remove()
         }
         for (const x of value) {
-            if(x.type==='operation') {
-                const operation = this.editor.operations.find(operation => operation.code === x.code);
-                const newOperation = document.createElement('div');
-                if (operation.code === 'group') {
-                    newOperation.append('(')
-                    newOperation.append(new SubFormula(this.editor))
-                    newOperation.append(')')
-                    newOperation.classList.add('group')
-                } else if (operation.code === 'divide') {
-                    newOperation.append(new SubFormula(this.editor))
-                    newOperation.append(new SubFormula(this.editor))
-                    newOperation.classList.add('divide')
-                } else {
-                    newOperation.append(operation.symbol);
-                }
-                newOperation.classList.add('operation');
-                newOperation.dataset.code = operation.code;
-                this.append(newOperation);
-            }else if (x.type==='node') {
-                const node = this.editor.nodes.find(node => node.code === x.code);
-                const newNode = document.createElement('div');
-                newNode.append(node.name);
-                newNode.classList.add('node');
-                newNode.dataset.code = node.code;
-                this.append(newNode);
-            }
+            this.append(this.createElement(x));
         }
     }
 }

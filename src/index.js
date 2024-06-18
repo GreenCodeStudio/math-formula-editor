@@ -58,23 +58,58 @@ export class MathFormulaEditor extends HTMLElement {
 
         for (const node of this.querySelectorAll('.node')) {
             node.ondragstart = (event) => {
-                event.dataTransfer.setData("node", node.dataset.code);
+                event.dataTransfer.setData("math-formula-editor-element",
+                    JSON.stringify({
+                        type: 'node',
+                        code: node.dataset.code
+                    }));
             }
             node.draggable = true;
         }
 
         for (const operation of this.querySelectorAll('.operation')) {
             operation.ondragstart = (event) => {
-                event.dataTransfer.setData("operation", operation.dataset.code);
+                event.dataTransfer.setData("math-formula-editor-element",
+                    JSON.stringify({
+                        type: 'operation',
+                        code: operation.dataset.code
+                    }));
             }
             operation.draggable = true;
         }
         this.querySelector('.formula').append(new SubFormula(this))
+        this.querySelector('.dropRemove').ondragover = (event) => {
+            event.preventDefault();
+        }
+        this.querySelector('.dropRemove').ondrop = (event) => {
+            event.preventDefault();
+            if (event.dataTransfer.getData("math-formula-editor-element")) {
+                const x = JSON.parse(event.dataTransfer.getData("math-formula-editor-element"));
+                document.getElementById(x.id)?.remove();
+            }
+        }
+        this.addEventListener('dragenter', (event) => {
+            this.classList.add('dragover');
+        });
+        this.addEventListener('dragleave', (event) => {
+            console.log(event)
+            let x = event.relatedTarget;
+            while (x) {
+                if (x === this)
+                    return;
+                x = x.parentNode;
+            }
+            this.classList.remove('dragover');
+        });
+        this.addEventListener('drop', (event) => {
+            this.classList.remove('dragover');
+        });
     }
 
     get value() {
         return this.querySelector('.formula > sub-formula').value;
     }
+
     set value(value) {
         this.querySelector('.formula > sub-formula').value = value;
     }
