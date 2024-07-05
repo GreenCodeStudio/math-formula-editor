@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+    <node name="operations">
+        <node name="add">
+            <value lang="en">Add</value>
+            <value lang="pl">Dodaj</value>
+        </node>
+        <node name="subtract">
+            <value lang="en">Subtract</value>
+            <value lang="pl">Odejmij</value>
+        </node>
+        <node name="multiply">
+            <value lang="en">Multiply</value>
+            <value lang="pl">Pomnóż</value>
+        </node>
+        <node name="divide">
+            <value lang="en">Divide</value>
+            <value lang="pl">Podziel</value>
+        </node>
+        <node name="group">
+            <value lang="en">Parentheses</value>
+            <value lang="pl">Nawiasy</value>
+        </node>
+    </node>
+</root>

@@ -72,7 +72,7 @@ export class SubFormula extends HTMLElement {
             newOperation.classList.add('operation');
             newOperation.dataset.code = operation.code;
             newOperation.draggable = true;
-            newNode.id = 'operation-' + (+new Date()) + '-' + Math.random().toString().slice(2, 8);
+            newOperation.id = 'operation-' + (+new Date()) + '-' + Math.random().toString().slice(2, 8);
             newOperation.addEventListener('dragstart', (event) => {
                 event.dataTransfer.setData("math-formula-editor-element", JSON.stringify(this.serializeElement(newOperation,true)));
             });

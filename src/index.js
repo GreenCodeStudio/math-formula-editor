@@ -1,15 +1,22 @@
 import layout from "!!mpts-loader!./layout.mpts";
 import "!!style-loader!css-loader!sass-loader!./style.scss";
 import {SubFormula} from "./subFormula.js";
+import {t} from "!@green-code-studio/internationalization/i18nWebpackLoader.js!./i18n.xml";
+import {LanguagesHierarchy} from "@green-code-studio/internationalization/languagesHierarchy.js";
 
 export class MathFormulaEditor extends HTMLElement {
     nodes = [];
     availableOperations = [];
 
-    constructor({nodes, availableOperations}) {
+    constructor({nodes, availableOperations, lang}) {
         super();
         this.nodes = nodes ?? [];
         this.availableOperations = availableOperations ?? [];
+        console.log('aaa',t);
+        if(lang)
+        {
+            LanguagesHierarchy.default.langs.unshift(lang);
+        }
         this.render();
     }
 
@@ -17,27 +24,27 @@ export class MathFormulaEditor extends HTMLElement {
         const all = [
             {
                 code: 'add',
-                name: 'Add',
+                name: t('operations.add'),
                 symbol: '+'
             },
             {
                 code: 'subtract',
-                name: 'Subtract',
+                name: t('operations.subtract'),
                 symbol: '-'
             },
             {
                 code: 'multiply',
-                name: 'Multiply',
+                name: t('operations.multiply'),
                 symbol: '*'
             },
             {
                 code: 'divide',
-                name: 'Divide',
+                name:  t('operations.divide'),
                 symbol: '/'
             },
             {
                 code: 'group',
-                name: 'Group',
+                name: t('operations.group'),
                 symbol: '()'
             }
         ];
