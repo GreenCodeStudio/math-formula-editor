@@ -6,6 +6,12 @@
         overflow: auto;
         height: 25vh;
         min-height: 200px;
+        .search{
+            display: block;
+            margin: 0.25em;
+            width: calc(100% - 0.5em);
+
+        }
     }
 
     .operations {

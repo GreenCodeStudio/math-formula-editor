@@ -62,6 +62,15 @@ export class MathFormulaEditor extends HTMLElement {
 
     render() {
         this.append(layout(this))
+        this.querySelector('.search').oninput = (event) => {
+            const value = event.target.value.toLowerCase();
+            for (const node of this.querySelectorAll('.node')) {
+                if (node.dataset.code.toLowerCase().includes(value)||node.textContent.toLowerCase().includes(value)) {
+                    node.style.display = 'block';
+                } else {
+                    node.style.display = 'none';
+                }
+            }}
 
         for (const node of this.querySelectorAll('.node')) {
             node.ondragstart = (event) => {
