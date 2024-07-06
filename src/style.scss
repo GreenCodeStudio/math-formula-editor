@@ -42,10 +42,22 @@
         &.group{
             display: flex;
             align-items: center;
+            background: transparent;
+            color: #000;
         }
         &.divide{
             display: flex;
             flex-direction: column;
+            background: none;
+            &::before{
+                content: '';
+                order: 2;
+                background: #000;
+                height: 0.2em;
+            }
+            > :last-child{
+                order: 3;
+            }
         }
     }
 
@@ -63,11 +75,17 @@
         margin: 0.25em;
         padding: 0.25em;
         border-radius: 0.25em;
+        min-height: 2em;
+        line-height: 1;
         color: #fff;
         display: flex;
         position: relative;
         min-width: 3em;
         align-items: center;
+        border: 1px solid rgba(0,0,0,.5);
+        &:hover{
+            border-color: #000;
+        }
         &::before, &::after{
             content: '';
             flex: 1 1 auto;
