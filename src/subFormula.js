@@ -58,13 +58,21 @@ export class SubFormula extends HTMLElement {
             const operation = this.editor.operations.find(operation => operation.code === x.code);
             const newOperation = document.createElement('div');
             if (operation.code === 'group') {
+                console.log('ggg')
                 newOperation.append('(')
-                newOperation.append(new SubFormula(this.editor))
+                const content = new SubFormula(this.editor);
+                content.value = x.content
+                newOperation.append(content)
                 newOperation.append(')')
                 newOperation.classList.add('group')
             } else if (operation.code === 'divide') {
-                newOperation.append(new SubFormula(this.editor))
-                newOperation.append(new SubFormula(this.editor))
+                console.log('divide')
+                const nominator = new SubFormula(this.editor);
+                nominator.value = x.nominator
+                const denominator = new SubFormula(this.editor);
+                denominator.value = x.denominator
+                newOperation.append(nominator)
+                newOperation.append(denominator)
                 newOperation.classList.add('divide')
             } else {
                 newOperation.append(operation.symbol);
@@ -74,7 +82,7 @@ export class SubFormula extends HTMLElement {
             newOperation.draggable = true;
             newOperation.id = 'operation-' + (+new Date()) + '-' + Math.random().toString().slice(2, 8);
             newOperation.addEventListener('dragstart', (event) => {
-                event.dataTransfer.setData("math-formula-editor-element", JSON.stringify(this.serializeElement(newOperation,true)));
+                event.dataTransfer.setData("math-formula-editor-element", JSON.stringify(this.serializeElement(newOperation, true)));
             });
             return (newOperation);
         } else if (x.type === 'node') {
@@ -86,7 +94,7 @@ export class SubFormula extends HTMLElement {
             newNode.draggable = true;
             newNode.id = 'node-' + (+new Date()) + '-' + Math.random().toString().slice(2, 8);
             newNode.addEventListener('dragstart', (event) => {
-                event.dataTransfer.setData("math-formula-editor-element", JSON.stringify(this.serializeElement(newNode,true)));
+                event.dataTransfer.setData("math-formula-editor-element", JSON.stringify(this.serializeElement(newNode, true)));
             });
             return (newNode);
         }
@@ -96,23 +104,23 @@ export class SubFormula extends HTMLElement {
         let ret;
         if (x.classList.contains('operation')) {
             if (x.classList.contains('group')) {
-                ret= {type: 'operation', code: x.dataset.code, content: x.querySelector('sub-formula').value}
+                ret = {type: 'operation', code: x.dataset.code, content: x.querySelector('sub-formula').value}
             } else if (x.classList.contains('divide')) {
-                ret= {
+                ret = {
                     type: 'operation',
                     code: x.dataset.code,
                     nominator: x.querySelector('sub-formula:first-of-type').value,
                     denominator: x.querySelector('sub-formula:last-of-type').value
                 }
             } else {
-                ret= {type: 'operation', code: x.dataset.code}
+                ret = {type: 'operation', code: x.dataset.code}
             }
         }
         if (x.classList.contains('node')) {
-            ret= {type: 'node', code: x.dataset.code}
+            ret = {type: 'node', code: x.dataset.code}
         }
-        if(addId){
-            ret.id=x.id
+        if (addId) {
+            ret.id = x.id
         }
         return ret
     }
