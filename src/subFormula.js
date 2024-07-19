@@ -83,6 +83,7 @@ export class SubFormula extends HTMLElement {
             newOperation.id = 'operation-' + (+new Date()) + '-' + Math.random().toString().slice(2, 8);
             newOperation.addEventListener('dragstart', (event) => {
                 event.dataTransfer.setData("math-formula-editor-element", JSON.stringify(this.serializeElement(newOperation, true)));
+                event.stopPropagation()
             });
             return (newOperation);
         } else if (x.type === 'node') {
@@ -95,6 +96,7 @@ export class SubFormula extends HTMLElement {
             newNode.id = 'node-' + (+new Date()) + '-' + Math.random().toString().slice(2, 8);
             newNode.addEventListener('dragstart', (event) => {
                 event.dataTransfer.setData("math-formula-editor-element", JSON.stringify(this.serializeElement(newNode, true)));
+                event.stopPropagation()
             });
             return (newNode);
         }

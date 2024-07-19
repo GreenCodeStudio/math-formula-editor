@@ -80,6 +80,8 @@ export class MathFormulaEditor extends HTMLElement {
                         type: 'node',
                         code: node.dataset.code
                     }));
+                console.log('dragstart '+node.dataset.code)
+                event.stopPropagation();
             }
             node.draggable = true;
         }
@@ -91,6 +93,8 @@ export class MathFormulaEditor extends HTMLElement {
                         type: 'operation',
                         code: operation.dataset.code
                     }));
+                console.log('dragstart '+operation.dataset.code)
+                event.stopPropagation();
             }
             operation.draggable = true;
         }
@@ -100,6 +104,7 @@ export class MathFormulaEditor extends HTMLElement {
         }
         this.querySelector('.dropRemove').ondrop = (event) => {
             event.preventDefault();
+            console.log('dropRemove')
             if (event.dataTransfer.getData("math-formula-editor-element")) {
                 const x = JSON.parse(event.dataTransfer.getData("math-formula-editor-element"));
                 document.getElementById(x.id)?.remove();
