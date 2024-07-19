@@ -104,6 +104,11 @@
         height: 2em;
         background: red;
         opacity: 0;
+        color: #fff;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     .dragover &{
         .dropRemove{

@@ -130,6 +130,7 @@ export class SubFormula extends HTMLElement {
     }
 
     set value(value) {
+        value = value ?? [];
         while (this.firstChild) {
             this.firstChild.remove()
         }

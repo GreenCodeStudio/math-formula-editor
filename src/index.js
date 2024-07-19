@@ -61,6 +61,7 @@ export class MathFormulaEditor extends HTMLElement {
     }
 
     render() {
+        this.t=t;
         this.append(layout(this))
         this.querySelector('.search').oninput = (event) => {
             const value = event.target.value.toLowerCase();

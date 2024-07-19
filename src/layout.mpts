@@ -16,5 +16,5 @@
     <div class="formula">
 
     </div>
-    <div class="dropRemove"></div>
+    <div class="dropRemove">{{t('dropToRemove')}}</div>
 </div>
