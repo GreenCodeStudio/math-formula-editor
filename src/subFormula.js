@@ -108,11 +108,12 @@ export class SubFormula extends HTMLElement {
             if (x.classList.contains('group')) {
                 ret = {type: 'operation', code: x.dataset.code, content: x.querySelector('sub-formula').value}
             } else if (x.classList.contains('divide')) {
+                console.log('dddddddd')
                 ret = {
                     type: 'operation',
                     code: x.dataset.code,
-                    nominator: x.querySelector('sub-formula:first-of-type').value,
-                    denominator: x.querySelector('sub-formula:last-of-type').value
+                    nominator: x.children[0].value,
+                    denominator: x.children[1].value
                 }
             } else {
                 ret = {type: 'operation', code: x.dataset.code}
