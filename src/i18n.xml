@@ -26,4 +26,8 @@
         <value lang="en">Drop here to remove</value>
         <value lang="pl">Upuść tutaj aby usunąć</value>
     </node>
+    <node name="constantNumber">
+        <value lang="en">Constant number</value>
+        <value lang="pl">Liczba stała</value>
+    </node>
 </root>

@@ -37,6 +37,9 @@
         padding: 0.25em;
         border-radius: 0.25em;
         color: #fff;
+        &[data-code="__constant"]{
+            background: #807a00;
+        }
     }
 
     .operation {

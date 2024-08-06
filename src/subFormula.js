@@ -89,7 +89,17 @@ export class SubFormula extends HTMLElement {
         } else if (x.type === 'node') {
             const node = this.editor.nodes.find(node => node.code === x.code);
             const newNode = document.createElement('div');
-            newNode.append(node.name);
+            if (node.code == '__constant') {
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.value = x.value??0;
+                input.addEventListener('input', (event) => {
+                    this.dispatchEvent(new CustomEvent('change', {bubbles: true}))
+                });
+                newNode.append(input);
+            } else {
+                newNode.append(node.name);
+            }
             newNode.classList.add('node');
             newNode.dataset.code = node.code;
             newNode.draggable = true;
@@ -120,7 +130,11 @@ export class SubFormula extends HTMLElement {
             }
         }
         if (x.classList.contains('node')) {
-            ret = {type: 'node', code: x.dataset.code}
+            if (x.dataset.code == '__constant') {
+                ret = {type: 'node', code: x.dataset.code, value: x.querySelector('input').value}
+            } else {
+                ret = {type: 'node', code: x.dataset.code}
+            }
         }
         if (addId) {
             ret.id = x.id
