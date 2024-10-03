@@ -60,6 +60,11 @@
             background: transparent;
             color: #000;
         }
+        &.abs{
+             display: flex;
+             align-items: center;
+             color: #fff;
+         }
         &.divide{
             display: flex;
             flex-direction: column;

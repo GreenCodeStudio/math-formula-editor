@@ -74,7 +74,15 @@ export class SubFormula extends HTMLElement {
                 newOperation.append(nominator)
                 newOperation.append(denominator)
                 newOperation.classList.add('divide')
-            } else {
+            }else if(operation.code === 'abs'){
+                newOperation.append('abs(')
+                const content = new SubFormula(this.editor);
+                content.value = x.content
+                newOperation.append(content)
+                newOperation.append(')')
+                newOperation.classList.add('abs')
+            }
+            else {
                 newOperation.append(operation.symbol);
             }
             newOperation.classList.add('operation');
@@ -116,7 +124,7 @@ export class SubFormula extends HTMLElement {
     serializeElement(x, addId) {
         let ret;
         if (x.classList.contains('operation')) {
-            if (x.classList.contains('group')) {
+            if (x.classList.contains('group')||x.classList.contains('abs')) {
                 ret = {type: 'operation', code: x.dataset.code, content: x.querySelector('sub-formula').value}
             } else if (x.classList.contains('divide')) {
                 console.log('dddddddd')

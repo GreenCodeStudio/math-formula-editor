@@ -84,6 +84,15 @@ export class SyntaxTreeParser {
                         lastNode = SyntaxTreeParser.parse(node.content)
                         this.position++
                     }
+                }else if (node.code == 'abs') {
+                    if (lastNode)
+                        throw new Error('error')
+                    else {
+                        lastNode = SyntaxTreeParser.parse(node.content)
+                        this.position++
+                    }
+                }else{
+                    throw new Error('error')
                 }
             } else {
                 if (lastNode)

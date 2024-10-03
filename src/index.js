@@ -46,6 +46,11 @@ export class MathFormulaEditor extends HTMLElement {
                 code: 'group',
                 name: t('operations.group'),
                 symbol: '()'
+            },
+            {
+                code: 'abs',
+                name: t('operations.abs'),
+                symbol: 'abs()'
             }
         ];
         return all.filter(operation => this.availableOperations.includes(operation.code));

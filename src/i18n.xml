@@ -21,6 +21,10 @@
             <value lang="en">Parentheses</value>
             <value lang="pl">Nawiasy</value>
         </node>
+        <node name="abs">
+            <value lang="en">Absolute value</value>
+            <value lang="pl">Wartość bezwzględna</value>
+        </node>
     </node>
     <node name="dropToRemove">
         <value lang="en">Drop here to remove</value>

@@ -4,7 +4,7 @@ console.log('aa');
 import {MathFormulaEditor} from '../src/index.js';
 
 const nodes = [{code: '__constant', name: 'Liczba stała'},{code: 'a', name: 'First', title:'Jeden'}, {code: 'b', name: 'Second'}, {code: 'c', name: 'Third'}]
-const availableOperations = ['add', 'subtract', 'multiply', 'divide', 'group']
+const availableOperations = ['add', 'subtract', 'multiply', 'divide', 'group', 'abs']
 const editor = new MathFormulaEditor({nodes, availableOperations});
 document.body.append(editor);
 const result = document.createElement('code')
