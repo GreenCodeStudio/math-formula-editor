@@ -2,7 +2,7 @@
     <div class="nodes">
         <input class="search" type="search"/>
     <:foreach collection=nodes item=node>
-        <div class="node" data-code=node.code>
+        <div class="node" data-code=node.code title=node.title>
             {{node.name}}
         </div>
     </:foreach>

@@ -102,6 +102,7 @@ export class SubFormula extends HTMLElement {
             }
             newNode.classList.add('node');
             newNode.dataset.code = node.code;
+            newNode.title=node.title??'';
             newNode.draggable = true;
             newNode.id = 'node-' + (+new Date()) + '-' + Math.random().toString().slice(2, 8);
             newNode.addEventListener('dragstart', (event) => {

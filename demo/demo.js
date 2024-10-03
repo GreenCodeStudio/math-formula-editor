@@ -3,7 +3,7 @@ import {SyntaxTreeParser} from "../src/syntaxTreeParser.js";
 console.log('aa');
 import {MathFormulaEditor} from '../src/index.js';
 
-const nodes = [{code: '__constant', name: 'Liczba stała'},{code: 'a', name: 'First'}, {code: 'b', name: 'Second'}, {code: 'c', name: 'Third'}]
+const nodes = [{code: '__constant', name: 'Liczba stała'},{code: 'a', name: 'First', title:'Jeden'}, {code: 'b', name: 'Second'}, {code: 'c', name: 'Third'}]
 const availableOperations = ['add', 'subtract', 'multiply', 'divide', 'group']
 const editor = new MathFormulaEditor({nodes, availableOperations});
 document.body.append(editor);
